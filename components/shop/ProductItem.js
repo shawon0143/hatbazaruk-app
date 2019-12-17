@@ -39,9 +39,9 @@ const ProductItem = props => {
 
 const styles = StyleSheet.create({
   product: {
-
-    height: 300,
-    margin: 20,
+    width: '45%',
+    height: 250,
+    margin: 10,
   },
   touchable: {
     overflow: 'hidden',
