@@ -37,7 +37,7 @@ const UserProductsScreen = props => {
                 <ProductItem
                     image={itemData.item.imageUrl}
                     title={itemData.item.title}
-                    price={itemData.item.price}
+                    price={+itemData.item.price}
                     onSelect={() => {
                         {
                             editProductHandler(itemData.item.id);
