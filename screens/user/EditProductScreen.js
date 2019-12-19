@@ -5,7 +5,7 @@ import {
     StyleSheet,
     Platform,
     Alert,
-    KeyboardAvoidingView,
+    KeyboardAvoidingView
 } from 'react-native';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import { useSelector, useDispatch } from 'react-redux';
@@ -20,11 +20,11 @@ const formReducer = (state, action) => {
     if (action.type === FORM_INPUT_UPDATE) {
         const updatedValues = {
             ...state.inputValues,
-            [action.input]: action.value,
+            [action.input]: action.value
         };
         const updatedValidities = {
             ...state.inputValidities,
-            [action.input]: action.isValid,
+            [action.input]: action.isValid
         };
         let updatedFormIsValid = true;
         for (const key in updatedValidities) {
@@ -33,7 +33,7 @@ const formReducer = (state, action) => {
         return {
             formIsValid: updatedFormIsValid,
             inputValidities: updatedValidities,
-            inputValues: updatedValues,
+            inputValues: updatedValues
         };
     }
     return state;
@@ -42,7 +42,7 @@ const formReducer = (state, action) => {
 const EditProductScreen = props => {
     const prodId = props.navigation.getParam('productId');
     const editedProduct = useSelector(state =>
-        state.products.userProducts.find(prod => prod.id === prodId),
+        state.products.userProducts.find(prod => prod.id === prodId)
     );
     const dispatch = useDispatch();
 
@@ -51,24 +51,22 @@ const EditProductScreen = props => {
             title: editedProduct ? editedProduct.title : '',
             imageUrl: editedProduct ? editedProduct.imageUrl : '',
             description: editedProduct ? editedProduct.description : '',
-            price: '',
+            price: ''
         },
         inputValidities: {
-            title: !!editedProduct,
-            imageUrl: !!editedProduct,
-            description: !!editedProduct,
-            price: !!editedProduct,
+            title: editedProduct ? true : false,
+            imageUrl: editedProduct ? true : false,
+            description: editedProduct ? true : false,
+            price: editedProduct ? true : false
         },
-        formIsValid: !!editedProduct,
+        formIsValid: editedProduct ? true : false
     });
 
     const submitHandler = useCallback(() => {
         if (!formState.formIsValid) {
-            Alert.alert(
-                'Wrong input!',
-                'Please check the errors in the form.',
-                [{ text: 'Okay' }],
-            );
+            Alert.alert('Wrong input!', 'Please check the errors in the form.', [
+                { text: 'Okay' }
+            ]);
             return;
         }
         if (editedProduct) {
@@ -77,8 +75,8 @@ const EditProductScreen = props => {
                     prodId,
                     formState.inputValues.title,
                     formState.inputValues.description,
-                    formState.inputValues.imageUrl,
-                ),
+                    formState.inputValues.imageUrl
+                )
             );
         } else {
             dispatch(
@@ -86,8 +84,8 @@ const EditProductScreen = props => {
                     formState.inputValues.title,
                     formState.inputValues.description,
                     formState.inputValues.imageUrl,
-                    +formState.inputValues.price,
-                ),
+                    +formState.inputValues.price
+                )
             );
         }
         props.navigation.goBack();
@@ -103,10 +101,10 @@ const EditProductScreen = props => {
                 type: FORM_INPUT_UPDATE,
                 value: inputValue,
                 isValid: inputValidity,
-                input: inputIdentifier,
+                input: inputIdentifier
             });
         },
-        [dispatchFormState],
+        [dispatchFormState]
     );
 
     return (
@@ -137,9 +135,7 @@ const EditProductScreen = props => {
                         keyboardType="default"
                         returnKeyType="next"
                         onInputChange={inputChangeHandler}
-                        initialValue={
-                            editedProduct ? editedProduct.imageUrl : ''
-                        }
+                        initialValue={editedProduct ? editedProduct.imageUrl : ''}
                         initiallyValid={!!editedProduct}
                         required
                     />
@@ -165,9 +161,7 @@ const EditProductScreen = props => {
                         multiline
                         numberOfLines={3}
                         onInputChange={inputChangeHandler}
-                        initialValue={
-                            editedProduct ? editedProduct.description : ''
-                        }
+                        initialValue={editedProduct ? editedProduct.description : ''}
                         initiallyValid={!!editedProduct}
                         required
                         minLength={5}
@@ -189,21 +183,19 @@ EditProductScreen.navigationOptions = navData => {
                 <Item
                     title="Save"
                     iconName={
-                        Platform.OS === 'android'
-                            ? 'md-checkmark'
-                            : 'ios-checkmark'
+                        Platform.OS === 'android' ? 'md-checkmark' : 'ios-checkmark'
                     }
                     onPress={submitFn}
                 />
             </HeaderButtons>
-        ),
+        )
     };
 };
 
 const styles = StyleSheet.create({
     form: {
-        margin: 20,
-    },
+        margin: 20
+    }
 });
 
 export default EditProductScreen;
