@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-let baseUrl = 'http://localhost:5000';
+let baseUrl = 'https://hatbazaruk.herokuapp.com';
 
 let commands = {};
 

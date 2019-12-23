@@ -3,8 +3,8 @@
   "expoServerPort": null,
   "packagerPort": null,
   "packagerPid": null,
-  "expoServerNgrokUrl": null,
-  "packagerNgrokUrl": null,
-  "ngrokPid": null,
+  "expoServerNgrokUrl": "https://u3-yx4.anonymous.hatbazaruk-app.exp.direct",
+  "packagerNgrokUrl": "https://packager.u3-yx4.anonymous.hatbazaruk-app.exp.direct",
+  "ngrokPid": 17129,
   "webpackServerPort": null
 }
