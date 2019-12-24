@@ -10,81 +10,80 @@ import * as productActions from '../../store/actions/products';
 import Colors from '../../constants/Colors';
 
 const ProductsOverviewScreen = props => {
-  const products = useSelector(state => state.products.availableProducts);
-  const dispatch = useDispatch();
+    const products = useSelector(state => state.products.availableProducts);
+    const dispatch = useDispatch();
 
     useEffect(() => {
         dispatch(productActions.fetchProducts());
     }, [dispatch]);
 
-  const selectItemHandler = (id, title) => {
-    props.navigation.navigate('ProductDetail', {
-      productId: id,
-      productTitle: title
-    });
-  };
+    const selectItemHandler = id => {
+        props.navigation.navigate('ProductDetail', {
+            productId: id,
+        });
+    };
 
-  return (
-    <FlatList
-      data={products}
-      keyExtractor={item => item._id}
-      horizontal={false}
-      numColumns={2}
-      renderItem={itemData => (
-        <ProductItem
-          image={itemData.item.images[0]}
-          title={itemData.item.name}
-          price={itemData.item.price.retail}
-          onSelect={() => {
-            selectItemHandler(itemData.item._id, itemData.item.title);
-          }}
-        >
-          {/*<Button*/}
-          {/*  color={Colors.primary}*/}
-          {/*  title="View Details"*/}
-          {/*  onPress={() => {*/}
-          {/*    selectItemHandler(itemData.item.id, itemData.item.title);*/}
-          {/*  }}*/}
-          {/*/>*/}
-          {/*<Button*/}
-          {/*  color={Colors.primary}*/}
-          {/*  title="To Cart"*/}
-          {/*  onPress={() => {*/}
-          {/*    dispatch(cartActions.addToCart(itemData.item));*/}
-          {/*  }}*/}
-          {/*/>*/}
-        </ProductItem>
-      )}
-    />
-  );
+    return (
+        <FlatList
+            data={products}
+            keyExtractor={item => item._id}
+            horizontal={false}
+            numColumns={2}
+            renderItem={itemData => (
+                <ProductItem
+                    image={itemData.item.images[0]}
+                    title={itemData.item.name}
+                    price={itemData.item.price.retail}
+                    onSelect={() => {
+                        selectItemHandler(itemData.item._id);
+                    }}
+                >
+                    {/*<Button*/}
+                    {/*  color={Colors.primary}*/}
+                    {/*  title="View Details"*/}
+                    {/*  onPress={() => {*/}
+                    {/*    selectItemHandler(itemData.item.id, itemData.item.title);*/}
+                    {/*  }}*/}
+                    {/*/>*/}
+                    {/*<Button*/}
+                    {/*  color={Colors.primary}*/}
+                    {/*  title="To Cart"*/}
+                    {/*  onPress={() => {*/}
+                    {/*    dispatch(cartActions.addToCart(itemData.item));*/}
+                    {/*  }}*/}
+                    {/*/>*/}
+                </ProductItem>
+            )}
+        />
+    );
 };
 
 ProductsOverviewScreen.navigationOptions = navData => {
-  return {
-    headerTitle: 'All Products',
-    headerLeft: (
-      <HeaderButtons HeaderButtonComponent={HeaderButton}>
-        <Item
-          title="Menu"
-          iconName={Platform.OS === 'android' ? 'md-menu' : 'ios-menu'}
-          onPress={() => {
-            navData.navigation.toggleDrawer();
-          }}
-        />
-      </HeaderButtons>
-    ),
-    headerRight: (
-      <HeaderButtons HeaderButtonComponent={HeaderButton}>
-        <Item
-          title="Cart"
-          iconName={Platform.OS === 'android' ? 'md-cart' : 'ios-cart'}
-          onPress={() => {
-            navData.navigation.navigate('Cart');
-          }}
-        />
-      </HeaderButtons>
-    )
-  };
+    return {
+        headerTitle: 'All Products',
+        // headerLeft: (
+        //   <HeaderButtons HeaderButtonComponent={HeaderButton}>
+        //     <Item
+        //       title="Menu"
+        //       iconName={Platform.OS === 'android' ? 'md-menu' : 'ios-menu'}
+        //       onPress={() => {
+        //         navData.navigation.toggleDrawer();
+        //       }}
+        //     />
+        //   </HeaderButtons>
+        // ),
+        // headerRight: (
+        //   <HeaderButtons HeaderButtonComponent={HeaderButton}>
+        //     <Item
+        //       title="Cart"
+        //       iconName={Platform.OS === 'android' ? 'md-cart' : 'ios-cart'}
+        //       onPress={() => {
+        //         navData.navigation.navigate('Cart');
+        //       }}
+        //     />
+        //   </HeaderButtons>
+        // )
+    };
 };
 
 export default ProductsOverviewScreen;
