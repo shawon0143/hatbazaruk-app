@@ -5,6 +5,7 @@ let baseUrl = 'https://hatbazaruk.herokuapp.com';
 let commands = {};
 
 commands['getAllProducts'] = { url: `/products/`, method: 'GET', responseType: 'json' };
+commands['findBrandById'] = { url: `/brands/:brandId`, method: 'GET', responseType: 'json' };
 
 export const callApi = (command, data, pathPara, cb) => {
     let callback = cb,

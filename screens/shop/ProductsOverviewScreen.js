@@ -34,6 +34,7 @@ const ProductsOverviewScreen = props => {
                     image={itemData.item.images[0]}
                     title={itemData.item.name}
                     price={itemData.item.price.retail}
+                    brand={itemData.item.brandName}
                     onSelect={() => {
                         selectItemHandler(itemData.item._id);
                     }}

@@ -60,6 +60,7 @@ const ModalStack = createStackNavigator(
         },
     },
     {
+        // mode: 'modal',
         headerMode: 'none',
     },
 );
@@ -145,7 +146,7 @@ const ShopTabNavigator = createBottomTabNavigator(
                                     ? 'md-home'
                                     : 'ios-home'
                             }
-                            size={23}
+                            size={24}
                             color={tabInfo.tintColor}
                         />
                     );
@@ -163,7 +164,7 @@ const ShopTabNavigator = createBottomTabNavigator(
                                     ? 'md-search'
                                     : 'ios-search'
                             }
-                            size={23}
+                            size={24}
                             color={tabInfo.tintColor}
                         />
                     );
@@ -181,7 +182,7 @@ const ShopTabNavigator = createBottomTabNavigator(
                                     ? 'md-cart'
                                     : 'ios-cart'
                             }
-                            size={23}
+                            size={24}
                             color={tabInfo.tintColor}
                         />
                     );
@@ -199,7 +200,7 @@ const ShopTabNavigator = createBottomTabNavigator(
                                     ? 'md-person'
                                     : 'ios-person'
                             }
-                            size={23}
+                            size={24}
                             color={tabInfo.tintColor}
                         />
                     );

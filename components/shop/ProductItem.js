@@ -31,7 +31,7 @@ const ProductItem = props => {
                         />
                     </View>
                     <View style={styles.details}>
-                        <Text style={styles.brand}>Esprit</Text>
+                        <Text style={styles.brand}>{props.brand}</Text>
                         <Text style={styles.title} numberOfLines={1}>
                             {props.title}
                         </Text>
@@ -49,9 +49,10 @@ const ProductItem = props => {
 
 const styles = StyleSheet.create({
     product: {
-        width: '46%',
+        flex: 1,
+        // width: '46%',
         height: 350,
-        margin: '2%',
+        marginHorizontal: '1%'
     },
     touchable: {
         borderRadius: 10,

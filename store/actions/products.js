@@ -9,9 +9,19 @@ import { callApi } from '../../axios';
 export const fetchProducts = () => {
   return dispatch => {
     console.log('get products api called');
-      callApi('getAllProducts', null, null, (error, response, status) => {
+      callApi('getAllProducts', null, null, async (error, response, status) => {
           if(status === 200) {
-            dispatch({ type: SET_PRODUCTS, products: response.products });
+            let loadedProducts = response.products;
+            for (let i = 0; i < loadedProducts.length; i++) {
+              callApi('findBrandById', null, { brandId: loadedProducts[i].brandId }, (error, response, status) => {
+                if (status === 200) {
+                  loadedProducts[i]['brandName'] = response.brand.name;
+                  if (loadedProducts.length === i + 1) {
+                    dispatch({ type: SET_PRODUCTS, products: loadedProducts });
+                  }
+                }
+              });
+            }
           }
       });
   }
