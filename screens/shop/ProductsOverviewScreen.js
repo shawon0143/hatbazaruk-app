@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { FlatList, Button, Platform } from 'react-native';
+import { FlatList, Button, Platform, View, StyleSheet } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 
@@ -24,38 +24,41 @@ const ProductsOverviewScreen = props => {
     };
 
     return (
-        <FlatList
-            data={products}
-            keyExtractor={item => item._id}
-            horizontal={false}
-            numColumns={2}
-            renderItem={itemData => (
-                <ProductItem
-                    image={itemData.item.images[0]}
-                    title={itemData.item.name}
-                    price={itemData.item.price.retail}
-                    brand={itemData.item.brandName}
-                    onSelect={() => {
-                        selectItemHandler(itemData.item._id);
-                    }}
-                >
-                    {/*<Button*/}
-                    {/*  color={Colors.primary}*/}
-                    {/*  title="View Details"*/}
-                    {/*  onPress={() => {*/}
-                    {/*    selectItemHandler(itemData.item.id, itemData.item.title);*/}
-                    {/*  }}*/}
-                    {/*/>*/}
-                    {/*<Button*/}
-                    {/*  color={Colors.primary}*/}
-                    {/*  title="To Cart"*/}
-                    {/*  onPress={() => {*/}
-                    {/*    dispatch(cartActions.addToCart(itemData.item));*/}
-                    {/*  }}*/}
-                    {/*/>*/}
-                </ProductItem>
-            )}
-        />
+        <View style={styles.container}>
+            <FlatList
+                data={products}
+                keyExtractor={item => item._id}
+                horizontal={false}
+                numColumns={2}
+                renderItem={itemData => (
+                    <ProductItem
+                        image={itemData.item.images[0]}
+                        title={itemData.item.name}
+                        price={itemData.item.price.retail}
+                        brand={itemData.item.brandName}
+                        onSelect={() => {
+                            selectItemHandler(itemData.item._id);
+                        }}
+                    >
+                        {/*<Button*/}
+                        {/*  color={Colors.primary}*/}
+                        {/*  title="View Details"*/}
+                        {/*  onPress={() => {*/}
+                        {/*    selectItemHandler(itemData.item.id, itemData.item.title);*/}
+                        {/*  }}*/}
+                        {/*/>*/}
+                        {/*<Button*/}
+                        {/*  color={Colors.primary}*/}
+                        {/*  title="To Cart"*/}
+                        {/*  onPress={() => {*/}
+                        {/*    dispatch(cartActions.addToCart(itemData.item));*/}
+                        {/*  }}*/}
+                        {/*/>*/}
+                    </ProductItem>
+                )}
+            />
+        </View>
+
     );
 };
 
@@ -86,5 +89,12 @@ ProductsOverviewScreen.navigationOptions = navData => {
         // )
     };
 };
+
+const styles = StyleSheet.create({
+    container: {
+        paddingHorizontal: 4,
+        paddingVertical: 8
+    }
+});
 
 export default ProductsOverviewScreen;
