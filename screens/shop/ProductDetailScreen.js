@@ -4,14 +4,15 @@ import {
     View,
     Text,
     Image,
-    ImageBackground,
     Button,
     StyleSheet,
     Platform,
     Animated,
     FlatList,
-    TouchableOpacity
+    TouchableOpacity,
+    Modal
 } from 'react-native';
+import ImageViewer from 'react-native-image-zoom-viewer';
 import { useSelector, useDispatch } from 'react-redux';
 import { Ionicons } from '@expo/vector-icons';
 
@@ -19,7 +20,7 @@ import Colors from '../../constants/Colors';
 import * as cartActions from '../../store/actions/cart';
 
 
-const HEADER_MAX_HEIGHT = 600;
+const HEADER_MAX_HEIGHT = 500;
 const HEADER_MIN_HEIGHT = 85;
 const HEADER_SCROLL_DISTANCE = (HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT);
 
@@ -47,6 +48,17 @@ const ProductDetailScreen = props => {
         extrapolate: 'clamp',
     });
 
+    const images = selectedProduct.images.map(image => {
+        return {
+            url: image
+        }
+    });
+    const [showModal, setShowModal] = React.useState(false);
+    const [imageIndex, setImageIndex] = React.useState(0);
+    const showImagePreview = (imageIndex) => {
+      setShowModal(true);
+      setImageIndex(imageIndex);
+    };
 
         let productData = (
             <View style={styles.scrollViewContent}>
@@ -65,7 +77,6 @@ const ProductDetailScreen = props => {
                                 ৳ {selectedProduct.price.retail.toFixed(2)}
                             </Text>
                         </View>
-
                     </View>
 
                     <View style={styles.flatListContainer}>
@@ -75,12 +86,12 @@ const ProductDetailScreen = props => {
                             horizontal={false}
                             numColumns={4}
                             renderItem={itemData => (
-                                <View style={styles.imageContainer}>
-                                    <Image
-                                        source={{ uri: itemData.item }}
-                                        style={styles.imageThumbnail}
-                                    />
-                                </View>
+                                <TouchableOpacity style={styles.imageContainer} onPress={() => showImagePreview(itemData.index)}>
+                                        <Image
+                                            source={{ uri: itemData.item }}
+                                            style={styles.imageThumbnail}
+                                        />
+                                </TouchableOpacity>
                             )}
                         />
                     </View>
@@ -114,13 +125,13 @@ const ProductDetailScreen = props => {
                     {productData}
                 </ScrollView>
                 <Animated.View style={[styles.header, {height: headerHeight}]}>
-                    <Animated.Image
-                        style={[
-                            styles.backgroundImage,
-                            {opacity: imageOpacity, transform: [{translateY: imageTranslate}]},
-                        ]}
-                        source={{ uri: selectedProduct.images[0] }}
-                    />
+                        <Animated.Image
+                            style={[
+                                styles.backgroundImage,
+                                {opacity: imageOpacity, transform: [{translateY: imageTranslate}]},
+                            ]}
+                            source={{ uri: selectedProduct.images[0] }}
+                        />
                     <Animated.View>
                         <View style={styles.bar}>
                             <TouchableOpacity style={styles.close} onPress={() => props.navigation.goBack()}>
@@ -131,15 +142,15 @@ const ProductDetailScreen = props => {
                                             : 'ios-arrow-dropleft-circle'
                                     }
                                     size={30}
+                                    style={{ color: Colors.primary }}
                                 />
                             </TouchableOpacity>
-                            {/*<Text style={styles.title}>Title</Text>*/}
                         </View>
                     </Animated.View>
 
                         <TouchableOpacity style={styles.addToCartBtn} onPress={() => dispatch(cartActions.addToCart(selectedProduct))}>
                             <Ionicons
-                                style={{ color: '#333' }}
+                                style={{ color: Colors.primary }}
                                 name={
                                     Platform.OS === 'android'
                                         ? 'md-basket'
@@ -150,6 +161,28 @@ const ProductDetailScreen = props => {
                         </TouchableOpacity>
 
                 </Animated.View>
+
+                <Modal visible={showModal} transparent={true} >
+                    <ImageViewer
+                        imageUrls={images}
+                        index={imageIndex}
+                        backgroundColor="white"
+                        enableSwipeDown={true}
+                        onSwipeDown={() => setShowModal(false) }
+                        pageAnimateTime={150}
+                    />
+                    <TouchableOpacity style={styles.closeImagePreview} onPress={() => {setShowModal(false) }}>
+                        <Ionicons
+                            name={
+                                Platform.OS === 'android'
+                                    ? 'md-close'
+                                    : 'ios-close'
+                            }
+                            size={30}
+                            style={{ color: '#333' }}
+                        />
+                    </TouchableOpacity>
+                </Modal>
             </View>
         );
 
@@ -157,14 +190,14 @@ const ProductDetailScreen = props => {
 
 const styles = StyleSheet.create({
     fill: {
-        flex: 1,
+        flex: 1
     },
     header: {
         position: 'absolute',
         top: 0,
         left: 0,
         right: 0,
-        backgroundColor: Colors.accent,
+        backgroundColor: '#ffffff',
         overflow: 'hidden',
     },
     bar: {
@@ -227,7 +260,7 @@ const styles = StyleSheet.create({
         width: 50,
         height: 50,
         padding: 5,
-        backgroundColor: Colors.accent,
+        backgroundColor: '#ffffff',
         borderRadius: 30,
         elevation: 5,
         justifyContent: 'center',
@@ -256,11 +289,19 @@ const styles = StyleSheet.create({
         margin: 5,
         position: 'absolute',
         top: 6,
-        left: 20,
+        left: 30,
         width: 70,
         height: 70,
         color: '#333',
     },
+    closeImagePreview: {
+        position: 'absolute',
+        top: 40,
+        left: 40,
+        width: 70,
+        height: 70,
+        padding: 2
+    }
 });
 
 export default ProductDetailScreen;
